@@ -85,8 +85,8 @@ export default function SecretBrowserPiP({ onClose }: SecretBrowserPiPProps) {
         <div className="w-[200px] bg-gray-100/80 backdrop-blur border-r border-gray-200 flex flex-col h-full cursor-move relative">
             <div className="h-12 flex items-center px-4 gap-2 no-drag">
                 <div className="flex gap-1.5">
-                    <button onClick={onClose} className="w-3 h-3 rounded-full bg-red-400 border border-red-500/50 hover:bg-red-500 transition-colors flex items-center justify-center group/btn">
-                        <X className="w-2 h-2 text-red-900 opacity-0 group-hover/btn:opacity-100" />
+                    <button onClick={onClose} className="w-3 h-3 rounded-full bg-red-400 border border-red-500/50 cursor-pointer hover:bg-red-500 transition-colors flex items-center justify-center group/btn pointer-events-auto">
+                        <X className="w-2 h-2 text-red-900 opacity-0 group-hover/btn:opacity-100 pointer-events-none" />
                     </button>
                     <div className="w-3 h-3 rounded-full bg-amber-400 border border-amber-500/50"></div>
                     <div className="w-3 h-3 rounded-full bg-green-400 border border-green-500/50"></div>
