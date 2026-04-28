@@ -85,7 +85,7 @@ export default function SecretBrowserPiP({ onClose }: SecretBrowserPiPProps) {
         <div className="w-[200px] bg-gray-100/80 backdrop-blur border-r border-gray-200 flex flex-col h-full cursor-move relative">
             <div className="h-12 flex items-center px-4 gap-2 no-drag">
                 <div className="flex gap-1.5">
-                    <button onClick={onClose} className="w-3 h-3 rounded-full bg-red-400 border border-red-500/50 cursor-pointer hover:bg-red-500 transition-colors flex items-center justify-center group/btn pointer-events-auto">
+                    <button onPointerDown={(e) => { e.stopPropagation(); onClose(); }} className="w-3 h-3 rounded-full bg-red-400 border border-red-500/50 cursor-pointer hover:bg-red-500 transition-colors flex items-center justify-center group/btn pointer-events-auto">
                         <X className="w-2 h-2 text-red-900 opacity-0 group-hover/btn:opacity-100 pointer-events-none" />
                     </button>
                     <div className="w-3 h-3 rounded-full bg-amber-400 border border-amber-500/50"></div>
@@ -114,7 +114,7 @@ export default function SecretBrowserPiP({ onClose }: SecretBrowserPiPProps) {
         <div className="flex-1 bg-white h-full flex flex-col cursor-auto relative no-drag">
            <div className="h-12 border-b border-gray-100 flex items-center justify-between px-6 font-bold text-gray-800">
                <span>{tabs.find(t => t.id === activeTab)?.label || 'Settings'}</span>
-               <button onClick={onClose} className="text-gray-400 hover:text-gray-700 hover:bg-gray-100 p-1.5 rounded-full transition-colors">
+               <button onPointerDown={(e) => { e.stopPropagation(); onClose(); }} className="text-gray-400 hover:text-gray-700 hover:bg-gray-100 p-1.5 rounded-full transition-colors">
                    <X className="w-4 h-4" />
                </button>
            </div>
