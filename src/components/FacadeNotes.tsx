@@ -13,7 +13,7 @@ interface FacadeNotesProps {
   saveStatus?: 'idle' | 'saving' | 'saved';
 }
 
-export default function FacadeNotes({ content, setContent, title = '수학 II', setTitle = () => {}, activeMode, onSelectMode, xrayMode, saveStatus = 'idle' }: FacadeNotesProps) {
+export default function FacadeNotes({ content, setContent, title = '👋not-ion에 오신 것을 환영합니다!', setTitle = () => {}, activeMode, onSelectMode, xrayMode, saveStatus = 'idle' }: FacadeNotesProps) {
   return (
     <div className="h-full flex flex-col max-w-4xl mx-auto overflow-hidden relative">
       {/* Fake UI Toolbar */}
@@ -101,7 +101,7 @@ export default function FacadeNotes({ content, setContent, title = '수학 II', 
           <span>대학교 노트</span>
           <span>/</span>
           {activeMode === 'notes' ? (
-            <span className="text-gray-600 font-medium">자유 필기장</span>
+            <span className="text-gray-600 font-medium">👋not-ion에 오신 것을 환영합니다!</span>
           ) : (
              <span className="text-gray-600 font-medium">개인 폴더</span>
           )}
@@ -114,8 +114,8 @@ export default function FacadeNotes({ content, setContent, title = '수학 II', 
           onChange={(e) => setTitle(e.target.value)}
         />
         <textarea
-          className="w-full h-full min-h-[500px] resize-none border-none outline-none text-gray-800 leading-relaxed text-lg bg-transparent font-serif placeholder-gray-300"
-          placeholder="여기에 필기를 시작하세요... (우측 하단 돋보기를 눌러 비밀 도구 탐색)"
+          className="w-full h-full min-h-[500px] resize-none border-none outline-none text-gray-800 leading-relaxed text-[16px] bg-transparent font-sans placeholder-gray-300"
+          placeholder="여기에 내용을 입력하세요..."
           value={content}
           onChange={(e) => setContent(e.target.value)}
           spellCheck={false}

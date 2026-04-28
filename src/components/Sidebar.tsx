@@ -87,7 +87,7 @@ export default function Sidebar({ activeMode, onSelectMode, xrayMode = false, on
           onClick={() => onSelectMode('notes')}
         >
           <Book className={`w-4 h-4 mr-2 ${xrayMode ? 'text-green-500 drop-shadow-[0_0_5px_rgba(34,197,94,0.8)]' : 'text-gray-400'}`} />
-          공통 메모
+          👋not-ion에 오신 것을 환영합니다!
         </div>
 
         <div 
