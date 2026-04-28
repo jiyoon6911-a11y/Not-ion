@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Book, Folder as FolderIcon, Clock, Hash, Cpu, Calendar, LogIn, LogOut, Plus, Calculator, Settings, HelpCircle, Activity } from 'lucide-react';
+import { Book, FileText, Folder as FolderIcon, Clock, Hash, Cpu, Calendar, LogIn, LogOut, Plus, Calculator, Settings, HelpCircle, Activity } from 'lucide-react';
 import { AppMode } from '../App';
 import { useAuth } from '../lib/AuthContext';
 import { collection, addDoc, onSnapshot, query, where, serverTimestamp } from 'firebase/firestore';
@@ -91,11 +91,11 @@ export default function Sidebar({ activeMode, onSelectMode, xrayMode = false, on
         </div>
 
         <div 
-          className={`flex items-center px-2 py-1.5 rounded cursor-pointer mb-1 transition-colors duration-500 ${activeMode === 'chat' ? (xrayMode ? 'bg-purple-900/20 text-purple-400 font-bold drop-shadow-[0_0_5px_rgba(168,85,247,0.8)]' : 'bg-gray-200 text-gray-800') : (xrayMode ? 'text-purple-500 hover:bg-purple-900/10' : 'text-gray-600 hover:bg-gray-100')}`}
+          className={`flex items-center px-2 py-1.5 rounded cursor-pointer mb-1 transition-colors duration-500 ${activeMode === 'chat' ? (xrayMode ? 'bg-sky-900/20 text-sky-400 font-bold drop-shadow-[0_0_5px_rgba(56,189,248,0.8)]' : 'bg-gray-200 text-gray-800') : (xrayMode ? 'text-sky-500 hover:bg-sky-900/10' : 'text-gray-600 hover:bg-gray-100')}`}
           onClick={() => onSelectMode('chat')}
         >
-          <Book className={`w-4 h-4 mr-2 ${xrayMode ? 'text-purple-500 drop-shadow-[0_0_5px_rgba(168,85,247,0.8)]' : 'text-gray-400'}`} />
-          그룹 스터디 노트 {xrayMode && <span className="ml-1 text-xs text-purple-400 font-normal">(비밀 채팅)</span>}
+          <Book className={`w-4 h-4 mr-2 ${xrayMode ? 'text-sky-400 drop-shadow-[0_0_5px_rgba(56,189,248,0.8)]' : 'text-gray-400'}`} />
+          그룹 스터디 노트 {xrayMode && <span className="ml-1 text-xs text-blue-400 font-bold drop-shadow-[0_0_5px_rgba(59,130,246,0.8)]">(비밀 채팅)</span>}
         </div>
 
         {/* Scattered Game 1 & 2 under Academic Management */}
@@ -103,23 +103,23 @@ export default function Sidebar({ activeMode, onSelectMode, xrayMode = false, on
         
         <div className={`${hiddenGameClass} ${activeMode === 'tetris' ? (xrayMode ? 'bg-green-900/20' : 'bg-gray-200 text-gray-800') : 'text-gray-600 hover:bg-gray-100'}`} onClick={() => onSelectMode('tetris')}>
           <Calendar className={hiddenIconClass} />
-          <span className={hiddenTextClass}>시간표 통합 조회 {xrayMode && <span className="ml-1 text-xs text-green-400 font-normal">(테트리스)</span>}</span>
+          <span className={hiddenTextClass}>시간표 조회 {xrayMode && <span className="ml-1 text-xs text-green-400 font-normal">(테트리스)</span>}</span>
         </div>
         
         <div className={`${hiddenGameClass} ${activeMode === '2048' ? (xrayMode ? 'bg-green-900/20' : 'bg-gray-200 text-gray-800') : 'text-gray-600 hover:bg-gray-100'}`} onClick={() => onSelectMode('2048')}>
           <Calculator className={hiddenIconClass} />
-          <span className={hiddenTextClass}>예상 학점 시뮬레이터 {xrayMode && <span className="ml-1 text-xs text-green-400 font-normal">(2048)</span>}</span>
+          <span className={hiddenTextClass}>학점 계산기 {xrayMode && <span className="ml-1 text-xs text-green-400 font-normal">(2048)</span>}</span>
         </div>
 
         {/* Scattered Game 6 under System logs */}
         <div className={`${hiddenGameClass} ${activeMode === 'snake' ? (xrayMode ? 'bg-green-900/20' : 'bg-gray-200 text-gray-800') : 'text-gray-600 hover:bg-gray-100'}`} onClick={() => onSelectMode('snake')}>
           <Activity className={hiddenIconClass} />
-          <span className={hiddenTextClass}>시스템 로그 추적기 {xrayMode && <span className="ml-1 text-xs text-green-400 font-normal">(스네이크)</span>}</span>
+          <span className={hiddenTextClass}>진로 로드맵 {xrayMode && <span className="ml-1 text-xs text-green-400 font-normal">(스네이크)</span>}</span>
         </div>
 
         <div className="text-xs font-semibold text-gray-400 mb-2 mt-6 px-2 tracking-wider flex items-center justify-between">
-          <span>개인 폴더</span>
-          {user && <Plus className="w-4 h-4 p-0.5 rounded hover:bg-gray-200 cursor-pointer hover:text-gray-800 transition" onClick={() => setIsCreatingFolder(!isCreatingFolder)} title="새 폴더 생성" />}
+          <span>페이지</span>
+          {user && <Plus className="w-4 h-4 p-0.5 rounded hover:bg-gray-200 cursor-pointer hover:text-gray-800 transition" onClick={() => setIsCreatingFolder(!isCreatingFolder)} title="새 페이지 생성" />}
         </div>
 
         {isCreatingFolder && (
@@ -128,7 +128,7 @@ export default function Sidebar({ activeMode, onSelectMode, xrayMode = false, on
               type="text" 
               autoFocus
               className="w-full text-xs px-2 py-1.5 border border-gray-300 rounded outline-none focus:border-blue-500 shadow-sm"
-              placeholder="폴더 이름 입력 후 Enter..."
+              placeholder="페이지 이름 입력 후 Enter..."
               value={newFolderName}
               onChange={(e) => setNewFolderName(e.target.value)}
               onBlur={() => setIsCreatingFolder(false)}
@@ -138,7 +138,7 @@ export default function Sidebar({ activeMode, onSelectMode, xrayMode = false, on
 
         {!user && (
           <div className="px-2 py-1 text-xs text-gray-400 italic">
-            로그인하여 폴더를 생성하세요
+            로그인하여 페이지를 생성하세요
           </div>
         )}
 
@@ -148,30 +148,30 @@ export default function Sidebar({ activeMode, onSelectMode, xrayMode = false, on
             className={`flex items-center px-2 py-1.5 rounded cursor-pointer mb-1 ${activeMode === `note_${folder.id}` ? 'bg-gray-200 text-gray-800' : 'text-gray-600 hover:bg-gray-100'}`}
             onClick={() => onSelectMode(`note_${folder.id}`, folder.id)}
           >
-            <FolderIcon className="w-4 h-4 mr-2 text-gray-400" />
+            <FileText className="w-4 h-4 mr-2 text-gray-400" />
             <span className="truncate">{folder.name}</span>
           </div>
         ))}
         {user && folders.length === 0 && !isCreatingFolder && (
-          <div className="px-2 py-1.5 text-xs text-gray-400">폴더가 없습니다.</div>
+          <div className="px-2 py-1.5 text-xs text-gray-400">페이지가 없습니다.</div>
         )}
 
         {/* Scattered Game 3 & 4 & 5 under Analytics */}
-        <div className={`text-xs font-semibold px-2 mt-6 mb-2 tracking-wider transition-colors duration-500 ${xrayMode ? 'text-green-500 font-bold drop-shadow-[0_0_5px_rgba(34,197,94,0.8)]' : 'text-gray-400'}`}>성능 분석 도구</div>
+        <div className={`text-xs font-semibold px-2 mt-6 mb-2 tracking-wider transition-colors duration-500 ${xrayMode ? 'text-green-500 font-bold drop-shadow-[0_0_5px_rgba(34,197,94,0.8)]' : 'text-gray-400'}`}>학습 도구</div>
 
         <div className={`${hiddenGameClass} ${activeMode === 'typing' ? (xrayMode ? 'bg-green-900/20' : 'bg-gray-200 text-gray-800') : 'text-gray-600 hover:bg-gray-100'}`} onClick={() => onSelectMode('typing')}>
           <Activity className={hiddenIconClass} />
-          <span className={hiddenTextClass}>인지 기능 추적기 {xrayMode && <span className="ml-1 text-xs text-green-400 font-normal">(타자/방어)</span>}</span>
+          <span className={hiddenTextClass}>메모장 {xrayMode && <span className="ml-1 text-xs text-green-400 font-normal">(타자/방어)</span>}</span>
         </div>
         
         <div className={`${hiddenGameClass} ${activeMode === 'apple' ? (xrayMode ? 'bg-green-900/20' : 'bg-gray-200 text-gray-800') : 'text-gray-600 hover:bg-gray-100'}`} onClick={() => onSelectMode('apple')}>
           <Hash className={hiddenIconClass} />
-          <span className={hiddenTextClass}>수강 데이터 군집화 {xrayMode && <span className="ml-1 text-xs text-green-400 font-normal">(사과)</span>}</span>
+          <span className={hiddenTextClass}>공학 계산기 {xrayMode && <span className="ml-1 text-xs text-green-400 font-normal">(사과)</span>}</span>
         </div>
         
         <div className={`${hiddenGameClass} ${activeMode === 'minesweeper' ? (xrayMode ? 'bg-green-900/20' : 'bg-gray-200 text-gray-800') : 'text-gray-600 hover:bg-gray-100'}`} onClick={() => onSelectMode('minesweeper')}>
           <Cpu className={hiddenIconClass} />
-          <span className={hiddenTextClass}>논리 구조 휴리스틱 {xrayMode && <span className="ml-1 text-xs text-green-400 font-normal">(지뢰찾기)</span>}</span>
+          <span className={hiddenTextClass}>체크리스트 {xrayMode && <span className="ml-1 text-xs text-green-400 font-normal">(지뢰찾기)</span>}</span>
         </div>
       </div>
       

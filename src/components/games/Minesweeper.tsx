@@ -222,7 +222,7 @@ export default function Minesweeper() {
         <div className="flex items-center gap-3">
           <Terminal className="w-6 h-6 text-indigo-600" />
           <div>
-            <h2 className="font-bold text-xl tracking-tight text-gray-800">논리 구조 휴리스틱 검증기 / 시스템 스캐너</h2>
+            <h2 className="font-bold text-xl tracking-tight text-gray-800">체크리스트</h2>
             <div className="text-xs text-gray-500 mt-1">MEMORY_NODE_ANALYSIS_TOOL v1.4.2</div>
           </div>
         </div>

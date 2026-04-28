@@ -228,7 +228,7 @@ export default function TetrisGame() {
         <div className="flex items-center gap-3 text-indigo-700">
           <CalendarDays className="w-6 h-6" />
           <div>
-             <h2 className="font-bold text-lg tracking-tight text-gray-800">종합 강의 시간표 (Timetable Optimizer)</h2>
+             <h2 className="font-bold text-lg tracking-tight text-gray-800">시간표 조회</h2>
              <div className="text-xs text-gray-500 mt-1">전자출결 연동 시스템 (BETA)</div>
           </div>
         </div>

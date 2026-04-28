@@ -25,7 +25,7 @@ const gameData: Record<string, { title: string; desc: React.ReactNode; tips: Rea
     )
   },
   tetris: {
-    title: "1. 시간표 조회 알고리즘 (Tetris)",
+    title: "1. 시간표 조회 (Tetris)",
     desc: (
       <>
         <strong>개요:</strong> 동적 시간 할당 최적화 연구. 시공간 블록(Tetromino)을 중첩 없이 배치하여 누적 이수 시간을 극대화하는 1차원 선형 소거 방법론이다.<br/>
@@ -42,7 +42,7 @@ const gameData: Record<string, { title: string; desc: React.ReactNode; tips: Rea
     )
   },
   '2048': {
-    title: "2. 예상 학점 계산기 (2048)",
+    title: "2. 학점 계산기 (2048)",
     desc: (
       <>
         <strong>개요:</strong> 인접한 동일 학년도 이수 단위(Grade)를 결합하여 상위 단계의 학점 밀도를 도출하는 비선형적 학점 시뮬레이션.<br/>
@@ -59,7 +59,7 @@ const gameData: Record<string, { title: string; desc: React.ReactNode; tips: Rea
     )
   },
   typing: {
-    title: "3. 집중력 모니터링 체계 (Typing Game)",
+    title: "3. 메모장 (Typing Game)",
     desc: (
       <>
         <strong>개요:</strong> 시각적 개체에 대한 정적 전사 및 동적 하강 객체의 신속 소거를 통해 집중도 하락을 방지하는 모니터링 척도.<br/>
@@ -76,7 +76,7 @@ const gameData: Record<string, { title: string; desc: React.ReactNode; tips: Rea
     )
   },
   apple: {
-    title: "4. 수강 데이터 분석 (Apple Game)",
+    title: "4. 공학 계산기 (Apple Game)",
     desc: (
       <>
         <strong>개요:</strong> 10진수 배열 구조 내에서 인접한 스칼라 값들의 합이 정확히 10이 되는 최적의 군집을 탐색하여 소거하는 데이터 군집화 연구.<br/>
@@ -93,7 +93,7 @@ const gameData: Record<string, { title: string; desc: React.ReactNode; tips: Rea
     )
   },
   minesweeper: {
-    title: "5. 논리 구조 검증 (Minesweeper)",
+    title: "5. 체크리스트 (Minesweeper)",
     desc: (
       <>
         <strong>개요:</strong> 행렬 내에 은닉된 잠재적 치명적 오류 개체(Bomb)를 인접 노드 가중치를 통해 추론하는 휴리스틱 탐색 기법.<br/>
@@ -110,7 +110,7 @@ const gameData: Record<string, { title: string; desc: React.ReactNode; tips: Rea
     )
   },
   snake: {
-    title: "6. 터미널 로깅 도구 (Snake)",
+    title: "6. 진로 로드맵 (Snake)",
     desc: (
       <>
         <strong>개요:</strong> 폐쇄 회로(Closed-loop) 내에서 단말 노드(Snake)가 무작위 생성되는 데이터 패킷을 수집하며 단말 길이를 연장하는 내구성 검사.<br/>

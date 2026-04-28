@@ -206,7 +206,7 @@ export default function AppleGame() {
               <Calculator className="w-8 h-8 text-indigo-600" />
             </div>
             <div>
-              <h1 className="text-2xl font-extrabold tracking-tight text-gray-900">수강 데이터 군집화</h1>
+              <h1 className="text-2xl font-extrabold tracking-tight text-gray-900">공학 계산기</h1>
               <p className="text-sm text-gray-500 font-medium mt-1">Data Matrix Clustering Analysis</p>
             </div>
           </div>

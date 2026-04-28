@@ -172,7 +172,7 @@ export default function SnakeGame() {
         <div className="flex items-center gap-3">
           <TerminalSquare className="w-5 h-5 text-gray-600" />
           <div>
-            <h2 className="font-bold text-lg tracking-tight text-gray-800">통합 로그 추적 시스템 (Trace Optimizer)</h2>
+            <h2 className="font-bold text-lg tracking-tight text-gray-800">진로 로드맵</h2>
             <div className="text-xs text-gray-500 mt-1">Runtime Sync Analysis & Network Traversal</div>
           </div>
         </div>

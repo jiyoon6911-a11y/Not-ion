@@ -238,9 +238,9 @@ export default function TypingGame() {
              <Keyboard className="w-6 h-6" />
            </div>
            <div>
-             <h2 className="text-gray-400 text-xs tracking-[0.2em] uppercase font-bold mb-1">데이터 입력 및 처리 능력 진단</h2>
+             <h2 className="text-gray-400 text-xs tracking-[0.2em] uppercase font-bold mb-1">메모장</h2>
              <div className="text-2xl font-bold tracking-tight text-gray-800">
-               {mode === 'transcription' ? '필기 속도 측정 (WPM/ACC)' : '순차적 데이터 검증 테스트'}
+               {mode === 'transcription' ? '메모장' : '순차적 데이터 검증 테스트'}
              </div>
            </div>
         </div>
@@ -269,7 +269,7 @@ export default function TypingGame() {
               }}
               className="text-xs px-4 py-1.5 bg-gray-800 text-white hover:bg-gray-700 rounded shadow-sm font-bold transition whitespace-nowrap"
             >
-              측정 모드 변경
+              메모지 변경
             </button>
           </div>
           
