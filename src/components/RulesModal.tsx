@@ -7,6 +7,23 @@ interface RulesModalProps {
 }
 
 const gameData: Record<string, { title: string; desc: React.ReactNode; tips: React.ReactNode }> = {
+  site_guide: {
+    title: "0. 시스템 진입 및 우회 규약 (Welcome Guide)",
+    desc: (
+      <>
+        <strong>개요:</strong> 본 시스템은 표면상 일반적인 학업용 노트 애플리케이션(Notion 파생)으로 위장되어 있으나, 실질적으로는 과도한 학업 스트레스 환경에서 은밀하게 인지적 휴식을 제공하기 위해 설계된 우회 포털이다.<br/>
+        <strong>접근 방식:</strong> X-Ray 탐색기(우측 하단)를 활성화하면 숨겨진 도구 모음(게임 등)이 노출되며, 은닉된 통신 채널에 접근할 수 있다.
+      </>
+    ),
+    tips: (
+      <>
+        <strong>활용 수칙:</strong><br/>
+        - 상단 툴바에 위장된 아이콘(Typing, Tetris 등)을 클릭하여 다양한 우회 프로그램에 접속하세요.<br/>
+        - '비밀 채팅' 메뉴를 통해 익명 통신망에 접속할 수 있습니다.<br/>
+        - 외부의 시선(교수, 조교 등)이 감지될 경우, 화면의 어떠한 위장 요소라도 클릭하여 즉시 본래의 필기 화면으로 복귀하세요.
+      </>
+    )
+  },
   tetris: {
     title: "1. 시간표 조회 알고리즘 (Tetris)",
     desc: (

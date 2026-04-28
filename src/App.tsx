@@ -20,7 +20,7 @@ export type AppMode = 'notes' | 'typing' | 'apple' | 'minesweeper' | 'tetris' | 
 export default function App() {
   const { user } = useAuth();
   const [activeMode, setActiveMode] = useState<AppMode>('notes');
-  const [activeNoteContent, setActiveNoteContent] = useState('[x] 딴 필기에 집중하여 최적의 학업 효율을 만들어 보세요.\\n[ ] 짓눌린 일정 속에서 잠시 나만의 여유를 갖는 법을 배워보세요.\\n[ ] 하나의 페이지에서 모든 복잡한 과제를 관리할 수 있습니다.\\n[ ] 러닝 타임 내내 당신의 열정을 실시간으로 기록하세요.\\n[ ] 왔다 갔다 하는 마우스 커서는 이제 그만, 한 곳에 정착하세요.\\n[ ] 니즈(Needs)에 맞는 완벽한 디지털 공간이 여기 준비되어 있습니다.');
+  const [activeNoteContent, setActiveNoteContent] = useState('[x] **딴** 필기에 집중하여 최적의 학업 효율을 만들어 보세요.\n[ ] **짓**눌린 일정 속에서 잠시 나만의 여유를 갖는 법을 배워보세요.\n[ ] **하**나의 페이지에서 모든 복잡한 과제를 관리할 수 있습니다.\n[ ] **러**닝 타임 내내 당신의 열정을 실시간으로 기록하세요.\n[ ] **왔**다 갔다 하는 마우스 커서는 이제 그만, 한 곳에 정착하세요.\n[ ] **니**즈(Needs)에 맞는 완벽한 디지털 공간이 여기 준비되어 있습니다.');
   const [activeNoteTitle, setActiveNoteTitle] = useState('👋not-ion에 오신 것을 환영합니다!');
   const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
   const [showRules, setShowRules] = useState(false);
@@ -41,7 +41,7 @@ export default function App() {
           const querySnapshot = await getDocs(q);
           if (querySnapshot.empty) {
             setActiveNoteTitle('👋not-ion에 오신 것을 환영합니다!');
-            setActiveNoteContent('[x] 딴 필기에 집중하여 최적의 학업 효율을 만들어 보세요.\\n[ ] 짓눌린 일정 속에서 잠시 나만의 여유를 갖는 법을 배워보세요.\\n[ ] 하나의 페이지에서 모든 복잡한 과제를 관리할 수 있습니다.\\n[ ] 러닝 타임 내내 당신의 열정을 실시간으로 기록하세요.\\n[ ] 왔다 갔다 하는 마우스 커서는 이제 그만, 한 곳에 정착하세요.\\n[ ] 니즈(Needs)에 맞는 완벽한 디지털 공간이 여기 준비되어 있습니다.');
+            setActiveNoteContent('[x] **딴** 필기에 집중하여 최적의 학업 효율을 만들어 보세요.\n[ ] **짓**눌린 일정 속에서 잠시 나만의 여유를 갖는 법을 배워보세요.\n[ ] **하**나의 페이지에서 모든 복잡한 과제를 관리할 수 있습니다.\n[ ] **러**닝 타임 내내 당신의 열정을 실시간으로 기록하세요.\n[ ] **왔**다 갔다 하는 마우스 커서는 이제 그만, 한 곳에 정착하세요.\n[ ] **니**즈(Needs)에 맞는 완벽한 디지털 공간이 여기 준비되어 있습니다.');
             setActiveNoteId(`new_root`);
           } else {
             const noteDoc = querySnapshot.docs[0];
@@ -59,7 +59,7 @@ export default function App() {
       return;
     } else if (activeMode === 'notes') {
       setActiveNoteTitle('👋not-ion에 오신 것을 환영합니다!');
-      setActiveNoteContent('[x] 딴 필기에 집중하여 최적의 학업 효율을 만들어 보세요.\\n[ ] 짓눌린 일정 속에서 잠시 나만의 여유를 갖는 법을 배워보세요.\\n[ ] 하나의 페이지에서 모든 복잡한 과제를 관리할 수 있습니다.\\n[ ] 러닝 타임 내내 당신의 열정을 실시간으로 기록하세요.\\n[ ] 왔다 갔다 하는 마우스 커서는 이제 그만, 한 곳에 정착하세요.\\n[ ] 니즈(Needs)에 맞는 완벽한 디지털 공간이 여기 준비되어 있습니다.');
+      setActiveNoteContent('[x] **딴** 필기에 집중하여 최적의 학업 효율을 만들어 보세요.\n[ ] **짓**눌린 일정 속에서 잠시 나만의 여유를 갖는 법을 배워보세요.\n[ ] **하**나의 페이지에서 모든 복잡한 과제를 관리할 수 있습니다.\n[ ] **러**닝 타임 내내 당신의 열정을 실시간으로 기록하세요.\n[ ] **왔**다 갔다 하는 마우스 커서는 이제 그만, 한 곳에 정착하세요.\n[ ] **니**즈(Needs)에 맞는 완벽한 디지털 공간이 여기 준비되어 있습니다.');
       setActiveNoteId(null);
       isInitialLoad.current = false;
       return;
@@ -172,6 +172,7 @@ export default function App() {
              setTitle={setActiveNoteTitle} 
              onSelectMode={setActiveMode}
              xrayMode={xrayMode}
+             setXrayMode={setXrayMode}
              saveStatus={saveStatus}
            />
         )}
