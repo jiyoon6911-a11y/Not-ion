@@ -1,7 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 
-export default function BossGame() {
-  const [gameOver, setGameOver] = useState(false);
+interface BossGameProps {
+  onWin: () => void;
+}
+
+export default function BossGame({ onWin }: BossGameProps) {
+  const [gameState, setGameState] = useState<'starting' | 'playing' | 'gameover' | 'win'>('starting');
   const [score, setScore] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const requestRef = useRef<number>();
@@ -35,15 +39,17 @@ export default function BossGame() {
     };
     window.addEventListener('mousemove', handleMouseMove);
 
-    // Initial enemies
-    for (let i = 0; i < 20; i++) {
-      enemies.current.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 10,
-        vy: (Math.random() - 0.5) * 10,
-        size: Math.random() * 20 + 10
-      });
+    // Initial enemies (EASIER: max 10 instead of 20, slower)
+    if (enemies.current.length === 0) {
+      for (let i = 0; i < 10; i++) {
+        enemies.current.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 6,
+          vy: (Math.random() - 0.5) * 6,
+          size: Math.random() * 15 + 10
+        });
+      }
     }
 
     const gameLoop = (time: number) => {
@@ -51,13 +57,23 @@ export default function BossGame() {
       const deltaTime = time - lastTime.current;
       lastTime.current = time;
 
-      if (!gameOver) {
-        ctx.fillStyle = 'black';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'black';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+      if (gameState === 'starting') {
+        ctx.fillStyle = 'red';
+        ctx.font = 'bold 100px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('너 뒷공부 해?', canvas.width / 2, canvas.height / 2 - 50);
+        
+        ctx.fillStyle = 'white';
+        ctx.font = 'bold 30px sans-serif';
+        ctx.fillText('클릭하여 결백을 증명하라.', canvas.width / 2, canvas.height / 2 + 50);
+      } else if (gameState === 'playing') {
         // Score text
         ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
-        ctx.font = 'bold 200px sans-serif';
+        ctx.font = 'bold 160px sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText('뒷공부 적발!!!', canvas.width / 2, canvas.height / 2);
@@ -66,15 +82,22 @@ export default function BossGame() {
         ctx.font = 'bold 40px sans-serif';
         ctx.fillText(`SCORE: ${Math.floor(score)}`, canvas.width / 2, 100);
 
-        setScore(s => s + deltaTime * 0.01);
+        setScore(s => {
+          const newScore = s + deltaTime * 0.01;
+          if (newScore >= 500 && gameState === 'playing') {
+            setGameState('win');
+            setTimeout(() => onWin(), 3000);
+          }
+          return newScore;
+        });
 
-        // Add more enemies over time
-        if (Math.random() < 0.1) {
+        // Add more enemies over time (EASIER: 0.03 instead of 0.1)
+        if (Math.random() < 0.03) {
           enemies.current.push({
             x: Math.random() < 0.5 ? 0 : canvas.width,
             y: Math.random() * canvas.height,
-            vx: (Math.random() - 0.5) * 15,
-            vy: (Math.random() - 0.5) * 15,
+            vx: (Math.random() - 0.5) * 8,
+            vy: (Math.random() - 0.5) * 8,
             size: Math.random() * 20 + 10
           });
         }
@@ -99,7 +122,7 @@ export default function BossGame() {
           const dy = player.current.y - e.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < player.current.size + e.size) {
-            setGameOver(true);
+            setGameState('gameover');
           }
         }
 
@@ -110,7 +133,7 @@ export default function BossGame() {
         ctx.fill();
         ctx.shadowBlur = 20;
         ctx.shadowColor = '#0f0';
-      } else {
+      } else if (gameState === 'gameover') {
         // Game Over
         ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -119,12 +142,27 @@ export default function BossGame() {
         ctx.font = 'bold 80px sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText('당신은 파멸했습니다.', canvas.width / 2, canvas.height / 2 - 50);
+        ctx.fillText('당신은 신뢰를 잃었습니다.', canvas.width / 2, canvas.height / 2 - 80);
+        ctx.font = 'bold 40px sans-serif';
+        ctx.fillText('스코어 500을 넘어 신뢰를 다시 얻으세요.', canvas.width / 2, canvas.height / 2 - 10);
         
         ctx.font = 'bold 30px sans-serif';
         ctx.fillStyle = 'white';
         ctx.fillText(`최종 버틴 시간: ${Math.floor(score)}점`, canvas.width / 2, canvas.height / 2 + 50);
         ctx.fillText('다시 하려면 클릭하세요. 항복은 ESC', canvas.width / 2, canvas.height / 2 + 100);
+      } else if (gameState === 'win') {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.fillStyle = 'green';
+        ctx.font = 'bold 80px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('결백 증명 완료!', canvas.width / 2, canvas.height / 2 - 50);
+        
+        ctx.font = 'bold 30px sans-serif';
+        ctx.fillStyle = 'black';
+        ctx.fillText('진정한 공부의 길로 안내합니다...', canvas.width / 2, canvas.height / 2 + 50);
       }
 
       requestRef.current = requestAnimationFrame(gameLoop);
@@ -137,20 +175,22 @@ export default function BossGame() {
       window.removeEventListener('mousemove', handleMouseMove);
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
     };
-  }, [gameOver, score]);
+  }, [gameState, score]);
 
   const handleClick = () => {
-    if (gameOver) {
-      setGameOver(false);
+    if (gameState === 'starting') {
+      setGameState('playing');
+    } else if (gameState === 'gameover') {
+      setGameState('playing');
       setScore(0);
       enemies.current = [];
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 10; i++) {
         enemies.current.push({
           x: Math.random() * window.innerWidth,
           y: Math.random() * window.innerHeight,
-          vx: (Math.random() - 0.5) * 10,
-          vy: (Math.random() - 0.5) * 10,
-          size: Math.random() * 20 + 10
+          vx: (Math.random() - 0.5) * 6,
+          vy: (Math.random() - 0.5) * 6,
+          size: Math.random() * 15 + 10
         });
       }
     }

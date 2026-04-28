@@ -10,3 +10,14 @@
   0% { transform: translateY(-10px); }
   100% { transform: translateY(100vh); }
 }
+
+.dark-theme {
+  filter: invert(0.9) hue-rotate(180deg);
+  background-color: #111;
+}
+
+.dark-theme img,
+.dark-theme canvas,
+.dark-theme .xray-active .animate-scanline {
+  filter: invert(1) hue-rotate(180deg);
+}

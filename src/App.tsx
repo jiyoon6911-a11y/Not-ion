@@ -27,6 +27,8 @@ export default function App() {
   const [showRules, setShowRules] = useState(false);
   const [xrayMode, setXrayMode] = useState(false);
   const [showPiP, setShowPiP] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+  const [trueStudyMode, setTrueStudyMode] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
   
   // To avoid saving on first load
@@ -154,7 +156,7 @@ export default function App() {
   const isGameMode = activeMode !== 'notes' && activeMode !== 'chat' && !activeMode.startsWith('note_');
 
   return (
-    <div className={`flex h-screen bg-white text-gray-800 font-sans selection:bg-blue-100 ${xrayMode ? 'xray-active' : ''}`}>
+    <div className={`flex h-screen bg-white text-gray-800 font-sans selection:bg-blue-100 ${xrayMode ? 'xray-active' : ''} ${darkMode ? 'dark-theme' : ''}`}>
       <Sidebar 
 
         activeMode={activeMode} 
@@ -163,6 +165,9 @@ export default function App() {
         }} 
         xrayMode={xrayMode}
         onSettingsClick={() => setShowPiP(true)}
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
+        trueStudyMode={trueStudyMode}
       />
       <main className="flex-1 overflow-hidden relative bg-white flex flex-col">
         {(activeMode === 'notes' || activeMode.startsWith('note_')) && (
@@ -177,6 +182,7 @@ export default function App() {
              xrayMode={xrayMode}
              setXrayMode={setXrayMode}
              saveStatus={saveStatus}
+             trueStudyMode={trueStudyMode}
            />
         )}
         {activeMode === 'chat' && <SecretChat xrayMode={xrayMode} />}
@@ -186,40 +192,43 @@ export default function App() {
         {activeMode === 'tetris' && <TetrisGame />}
         {activeMode === '2048' && <Game2048 />}
         {activeMode === 'snake' && <SnakeGame />}
-        {activeMode === 'boss_game' && <BossGame />}
+        {activeMode === 'boss_game' && <BossGame onWin={() => { setTrueStudyMode(true); setActiveMode('notes'); setXrayMode(false); }} />}
       </main>
 
       {isGameMode && showRules && <RulesModal onClose={() => setShowRules(false)} activeMode={activeMode} />}
       {showPiP && <SecretBrowserPiP onClose={() => setShowPiP(false)} />}
-      <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-40">
-        <button 
-          className="bg-red-500/90 backdrop-blur border border-red-600 text-white hover:bg-red-600 p-3 rounded-full shadow-[0_0_15px_rgba(239,68,68,0.5)] hover:shadow-[0_0_25px_rgba(239,68,68,0.8)] transition-all flex items-center justify-center group"
-          onClick={() => setActiveMode('boss_game')}
-        >
-          <div className="w-6 h-6 flex items-center justify-center font-bold">!</div>
-          <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs group-hover:ml-2 transition-all duration-300 ease-in-out font-bold text-sm">진짜 공부모드</span>
-        </button>
-
-        <button 
-          className={`bg-white/90 backdrop-blur border border-gray-300 ${xrayMode ? 'text-green-500 border-green-400 drop-shadow-[0_0_8px_rgba(34,197,94,0.6)]' : 'text-gray-500 hover:text-gray-800'} hover:bg-gray-50 p-3 rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center group`}
-          onClick={() => setXrayMode(!xrayMode)}
-        >
-          <Search className="w-6 h-6" />
-          <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs group-hover:ml-2 transition-all duration-300 ease-in-out font-medium text-sm">X-Ray 탐지기</span>
-        </button>
-
-        {isGameMode && (
+      
+      {!trueStudyMode && (
+        <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-40">
           <button 
-            className="bg-white/90 backdrop-blur border border-gray-300 text-gray-500 hover:text-gray-800 hover:bg-gray-50 p-3 rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center group"
-            onClick={() => setShowRules(true)}
+            className="bg-red-500/90 backdrop-blur border border-red-600 text-white hover:bg-red-600 p-3 rounded-full shadow-[0_0_15px_rgba(239,68,68,0.5)] hover:shadow-[0_0_25px_rgba(239,68,68,0.8)] transition-all flex items-center justify-center group"
+            onClick={() => setActiveMode('boss_game')}
           >
-            <BookOpen className="w-6 h-6" />
-            <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs group-hover:ml-2 transition-all duration-300 ease-in-out font-medium text-sm">학술 가이드 열람</span>
+            <div className="w-6 h-6 flex items-center justify-center font-bold">!</div>
+            <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs group-hover:ml-2 transition-all duration-300 ease-in-out font-bold text-sm">진짜 공부모드</span>
           </button>
-        )}
-      </div>
 
-      {xrayMode && (
+          <button 
+            className={`bg-white/90 backdrop-blur border border-gray-300 ${xrayMode ? 'text-green-500 border-green-400 drop-shadow-[0_0_8px_rgba(34,197,94,0.6)]' : 'text-gray-500 hover:text-gray-800'} hover:bg-gray-50 p-3 rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center group`}
+            onClick={() => setXrayMode(!xrayMode)}
+          >
+            <Search className="w-6 h-6" />
+            <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs group-hover:ml-2 transition-all duration-300 ease-in-out font-medium text-sm">X-Ray 탐지기</span>
+          </button>
+
+          {isGameMode && (
+            <button 
+              className="bg-white/90 backdrop-blur border border-gray-300 text-gray-500 hover:text-gray-800 hover:bg-gray-50 p-3 rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center group"
+              onClick={() => setShowRules(true)}
+            >
+              <BookOpen className="w-6 h-6" />
+              <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs group-hover:ml-2 transition-all duration-300 ease-in-out font-medium text-sm">학술 가이드 열람</span>
+            </button>
+          )}
+        </div>
+      )}
+
+      {xrayMode && !trueStudyMode && (
         <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden mix-blend-screen">
           <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.15)_50%),linear-gradient(90deg,rgba(0,255,0,0.06),rgba(0,255,0,0.02),rgba(0,255,0,0.06))] bg-[length:100%_4px,3px_100%] opacity-30"></div>
           <div className="absolute left-0 right-0 h-32 bg-gradient-to-b from-transparent via-green-400/30 to-transparent animate-scanline"></div>

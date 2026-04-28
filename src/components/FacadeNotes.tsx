@@ -12,9 +12,10 @@ interface FacadeNotesProps {
   xrayMode?: boolean;
   setXrayMode?: (mode: boolean) => void;
   saveStatus?: 'idle' | 'saving' | 'saved';
+  trueStudyMode?: boolean;
 }
 
-export default function FacadeNotes({ content, setContent, title = '👋not-ion에 오신 것을 환영합니다!', setTitle = () => {}, activeMode, onSelectMode, xrayMode, setXrayMode, saveStatus = 'idle' }: FacadeNotesProps) {
+export default function FacadeNotes({ content, setContent, title = '👋not-ion에 오신 것을 환영합니다!', setTitle = () => {}, activeMode, onSelectMode, xrayMode, setXrayMode, saveStatus = 'idle', trueStudyMode = false }: FacadeNotesProps) {
   const [isEditing, setIsEditing] = useState(false);
 
   return (
@@ -96,13 +97,6 @@ export default function FacadeNotes({ content, setContent, title = '👋not-ion�
         >
           <Underline className="w-4 h-4" />
         </button>
-        <button 
-          className={`p-1.5 rounded transition-all duration-500 relative ${xrayMode ? 'bg-green-900/10 text-green-400 ring-1 ring-green-500/50 z-20 drop-shadow-[0_0_5px_rgba(34,197,94,0.8)] cursor-pointer hover:bg-green-900/30' : 'hover:bg-gray-100 cursor-pointer'}`} 
-          onClick={(e) => { e.stopPropagation(); onSelectMode?.('typing'); }} 
-        >
-          {xrayMode && <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 border border-green-500 text-green-400 text-xs px-2 py-1 rounded shadow-[0_0_10px_rgba(34,197,94,0.5)] whitespace-nowrap font-bold pointer-events-none">Typing 도구</span>}
-          <Type className="w-4 h-4" />
-        </button>
         <div className="w-px h-4 bg-gray-300 mx-1"></div>
         <button 
           className="p-1.5 hover:bg-gray-100 rounded cursor-pointer"
@@ -126,42 +120,54 @@ export default function FacadeNotes({ content, setContent, title = '👋not-ion�
           <AlignRight className="w-4 h-4" />
         </button>
         <div className="w-px h-4 bg-gray-300 mx-1"></div>
-        <button 
-          className={`p-1.5 rounded transition-all duration-500 relative ${xrayMode ? 'bg-green-900/10 text-green-400 ring-1 ring-green-500/50 z-20 drop-shadow-[0_0_5px_rgba(34,197,94,0.8)] cursor-pointer hover:bg-green-900/30' : 'hover:bg-gray-100 cursor-pointer'}`} 
-          onClick={(e) => { e.stopPropagation(); onSelectMode?.('tetris'); }} 
-        >
-          {xrayMode && <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 border border-green-500 text-green-400 text-xs px-2 py-1 rounded shadow-[0_0_10px_rgba(34,197,94,0.5)] whitespace-nowrap font-bold pointer-events-none">Tetris 도구</span>}
-          <Table className="w-4 h-4" />
-        </button>
-        <button 
-          className={`p-1.5 rounded transition-all duration-500 relative ${xrayMode ? 'bg-green-900/10 text-green-400 ring-1 ring-green-500/50 z-20 drop-shadow-[0_0_5px_rgba(34,197,94,0.8)] cursor-pointer hover:bg-green-900/30' : 'hover:bg-gray-100 cursor-pointer'}`} 
-          onClick={(e) => { e.stopPropagation(); onSelectMode?.('minesweeper'); }} 
-        >
-          {xrayMode && <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 border border-green-500 text-green-400 text-xs px-2 py-1 rounded shadow-[0_0_10px_rgba(34,197,94,0.5)] whitespace-nowrap font-bold pointer-events-none">Minesweeper 도구</span>}
-          <Grid3x3 className="w-4 h-4" />
-        </button>
-        <button 
-          className={`p-1.5 rounded transition-all duration-500 relative ${xrayMode ? 'bg-green-900/10 text-green-400 ring-1 ring-green-500/50 z-20 drop-shadow-[0_0_5px_rgba(34,197,94,0.8)] cursor-pointer hover:bg-green-900/30' : 'hover:bg-gray-100 cursor-pointer'}`} 
-          onClick={(e) => { e.stopPropagation(); onSelectMode?.('2048'); }} 
-        >
-          {xrayMode && <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 border border-green-500 text-green-400 text-xs px-2 py-1 rounded shadow-[0_0_10px_rgba(34,197,94,0.5)] whitespace-nowrap font-bold pointer-events-none">2048 도구</span>}
-          <Calculator className="w-4 h-4" />
-        </button>
-        <button 
-          className={`p-1.5 rounded transition-all duration-500 relative ${xrayMode ? 'bg-green-900/10 text-green-400 ring-1 ring-green-500/50 z-20 drop-shadow-[0_0_5px_rgba(34,197,94,0.8)] cursor-pointer hover:bg-green-900/30' : 'hover:bg-gray-100 cursor-pointer'}`} 
-          onClick={(e) => { e.stopPropagation(); onSelectMode?.('apple'); }} 
-        >
-          {xrayMode && <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 border border-green-500 text-green-400 text-xs px-2 py-1 rounded shadow-[0_0_10px_rgba(34,197,94,0.5)] whitespace-nowrap font-bold pointer-events-none">Apple 도구</span>}
-          <PieChart className="w-4 h-4" />
-        </button>
-        <button 
-          className={`p-1.5 rounded transition-all duration-500 relative ${xrayMode ? 'bg-green-900/10 text-green-400 ring-1 ring-green-500/50 z-20 drop-shadow-[0_0_5px_rgba(34,197,94,0.8)] cursor-pointer hover:bg-green-900/30' : 'hover:bg-gray-100 cursor-pointer'}`} 
-          onClick={(e) => { e.stopPropagation(); onSelectMode?.('snake'); }} 
-        >
-          {xrayMode && <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 border border-green-500 text-green-400 text-xs px-2 py-1 rounded shadow-[0_0_10px_rgba(34,197,94,0.5)] whitespace-nowrap font-bold pointer-events-none">Snake 도구</span>}
-          <Terminal className="w-4 h-4" />
-        </button>
-        <div className="w-px h-4 bg-gray-300 mx-1"></div>
+        
+        {!trueStudyMode && (
+          <>
+            <button 
+              className={`p-1.5 rounded transition-all duration-500 relative ${xrayMode ? 'bg-green-900/10 text-green-400 ring-1 ring-green-500/50 z-20 drop-shadow-[0_0_5px_rgba(34,197,94,0.8)] cursor-pointer hover:bg-green-900/30' : 'hover:bg-gray-100 cursor-pointer'}`} 
+              onClick={(e) => { e.stopPropagation(); onSelectMode?.('typing'); }} 
+            >
+              {xrayMode && <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 border border-green-500 text-green-400 text-xs px-2 py-1 rounded shadow-[0_0_10px_rgba(34,197,94,0.5)] whitespace-nowrap font-bold pointer-events-none">Typing 도구</span>}
+              <Type className="w-4 h-4" />
+            </button>
+            <button 
+              className={`p-1.5 rounded transition-all duration-500 relative ${xrayMode ? 'bg-green-900/10 text-green-400 ring-1 ring-green-500/50 z-20 drop-shadow-[0_0_5px_rgba(34,197,94,0.8)] cursor-pointer hover:bg-green-900/30' : 'hover:bg-gray-100 cursor-pointer'}`} 
+              onClick={(e) => { e.stopPropagation(); onSelectMode?.('tetris'); }} 
+            >
+              {xrayMode && <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 border border-green-500 text-green-400 text-xs px-2 py-1 rounded shadow-[0_0_10px_rgba(34,197,94,0.5)] whitespace-nowrap font-bold pointer-events-none">Tetris 도구</span>}
+              <Table className="w-4 h-4" />
+            </button>
+            <button 
+              className={`p-1.5 rounded transition-all duration-500 relative ${xrayMode ? 'bg-green-900/10 text-green-400 ring-1 ring-green-500/50 z-20 drop-shadow-[0_0_5px_rgba(34,197,94,0.8)] cursor-pointer hover:bg-green-900/30' : 'hover:bg-gray-100 cursor-pointer'}`} 
+              onClick={(e) => { e.stopPropagation(); onSelectMode?.('minesweeper'); }} 
+            >
+              {xrayMode && <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 border border-green-500 text-green-400 text-xs px-2 py-1 rounded shadow-[0_0_10px_rgba(34,197,94,0.5)] whitespace-nowrap font-bold pointer-events-none">Minesweeper 도구</span>}
+              <Grid3x3 className="w-4 h-4" />
+            </button>
+            <button 
+              className={`p-1.5 rounded transition-all duration-500 relative ${xrayMode ? 'bg-green-900/10 text-green-400 ring-1 ring-green-500/50 z-20 drop-shadow-[0_0_5px_rgba(34,197,94,0.8)] cursor-pointer hover:bg-green-900/30' : 'hover:bg-gray-100 cursor-pointer'}`} 
+              onClick={(e) => { e.stopPropagation(); onSelectMode?.('2048'); }} 
+            >
+              {xrayMode && <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 border border-green-500 text-green-400 text-xs px-2 py-1 rounded shadow-[0_0_10px_rgba(34,197,94,0.5)] whitespace-nowrap font-bold pointer-events-none">2048 도구</span>}
+              <Calculator className="w-4 h-4" />
+            </button>
+            <button 
+              className={`p-1.5 rounded transition-all duration-500 relative ${xrayMode ? 'bg-green-900/10 text-green-400 ring-1 ring-green-500/50 z-20 drop-shadow-[0_0_5px_rgba(34,197,94,0.8)] cursor-pointer hover:bg-green-900/30' : 'hover:bg-gray-100 cursor-pointer'}`} 
+              onClick={(e) => { e.stopPropagation(); onSelectMode?.('apple'); }} 
+            >
+              {xrayMode && <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 border border-green-500 text-green-400 text-xs px-2 py-1 rounded shadow-[0_0_10px_rgba(34,197,94,0.5)] whitespace-nowrap font-bold pointer-events-none">Apple 도구</span>}
+              <PieChart className="w-4 h-4" />
+            </button>
+            <button 
+              className={`p-1.5 rounded transition-all duration-500 relative ${xrayMode ? 'bg-green-900/10 text-green-400 ring-1 ring-green-500/50 z-20 drop-shadow-[0_0_5px_rgba(34,197,94,0.8)] cursor-pointer hover:bg-green-900/30' : 'hover:bg-gray-100 cursor-pointer'}`} 
+              onClick={(e) => { e.stopPropagation(); onSelectMode?.('snake'); }} 
+            >
+              {xrayMode && <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 border border-green-500 text-green-400 text-xs px-2 py-1 rounded shadow-[0_0_10px_rgba(34,197,94,0.5)] whitespace-nowrap font-bold pointer-events-none">Snake 도구</span>}
+              <Terminal className="w-4 h-4" />
+            </button>
+            <div className="w-px h-4 bg-gray-300 mx-1"></div>
+          </>
+        )}
         <button className="p-1.5 hover:bg-gray-100 rounded cursor-text ml-auto"><Link className="w-4 h-4" /></button>
         <button className="p-1.5 hover:bg-gray-100 rounded cursor-text"><ImageIcon className="w-4 h-4" /></button>
         
