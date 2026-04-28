@@ -226,12 +226,22 @@ export default function SecretChat({ xrayMode = false }: { xrayMode?: boolean })
                              <p>좌측 목록에서 <strong>연결된 노드(친구)를 선택</strong>하여 대화를 시작할 수 있습니다.</p>
                          </div>
                       </div>
+                      {!user && (
+                         <div className="mt-8 text-red-400 font-bold drop-shadow-[0_0_8px_rgba(239,68,68,0.8)] border border-red-500/30 bg-red-900/10 px-6 py-3 rounded-xl animate-pulse">
+                            ⚠️ 시스템 경고: 채팅을 이용하려면 좌측 메뉴에서 로그인이 필요합니다.
+                         </div>
+                      )}
                   </div>
               ) : (
                   <div className="flex-1 bg-[#f3f2f1] overflow-y-auto">
                       <div className="max-w-5xl mx-auto p-8">
-                         <div className="mb-10 text-2xl text-gray-800">
+                         <div className="mb-10 text-2xl text-gray-800 flex items-center">
                              안녕하세요.
+                             {!user && (
+                               <span className="text-sm font-medium ml-4 px-3 py-1 bg-red-50 border border-red-200 text-red-600 rounded-full shadow-sm">
+                                  ! 채팅 기능을 사용하기 위해 로그인이 필요합니다.
+                               </span>
+                             )}
                          </div>
                          <div className="mb-4 flex items-center justify-between">
                              <h2 className="text-sm font-semibold text-gray-700">새로 만들기</h2>
@@ -350,7 +360,7 @@ export default function SecretChat({ xrayMode = false }: { xrayMode?: boolean })
                       </div>
                   )}
 
-                  <div className={`flex-1 overflow-y-auto flex flex-col scroll-smooth ${xrayMode ? 'p-6 gap-4 bg-[#0f0f13]' : 'bg-white'}`}>
+                  <div className={`flex-1 min-h-0 overflow-y-auto flex flex-col scroll-smooth ${xrayMode ? 'p-6 gap-4 bg-[#0f0f13]' : 'bg-white'}`}>
                       {xrayMode ? (
                           <>
                               {messages.map(msg => {

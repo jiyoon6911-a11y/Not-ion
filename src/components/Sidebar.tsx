@@ -77,9 +77,15 @@ export default function Sidebar({ activeMode, onSelectMode, xrayMode = false, on
           {user ? '내 워크스페이스' : '학생 워크스페이스'}
         </div>
         {user ? (
-          <LogOut className="w-4 h-4 text-gray-400 hover:text-gray-800" onClick={signOut} title="로그아웃" />
+          <button className="flex items-center text-gray-400 hover:text-gray-800" onClick={signOut} title="로그아웃">
+            <span className="text-xs mr-1 font-semibold">로그아웃</span>
+            <LogOut className="w-4 h-4 text-red-400 hover:text-red-500" />
+          </button>
         ) : (
-          <LogIn className="w-4 h-4 text-gray-400 hover:text-blue-600" onClick={signIn} title="로그인 (저장 활성화)" />
+          <button className="flex items-center text-blue-500 hover:text-blue-700 font-bold bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded shadow-sm border border-blue-200 transition-colors" onClick={signIn} title="로그인 (저장 활성화)">
+            <span className="text-xs mr-1.5 whitespace-nowrap">로그인</span>
+            <LogIn className="w-4 h-4" />
+          </button>
         )}
       </div>
       
