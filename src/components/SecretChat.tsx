@@ -165,7 +165,7 @@ export default function SecretChat({ xrayMode = false }: { xrayMode?: boolean })
   }
 
   return (
-    <div className={`w-full h-full flex pt-[52px] ${xrayMode ? 'flex-row bg-[#0f0f13] text-purple-100 font-mono tracking-wider' : 'flex-col bg-[#e6e8eb] text-gray-800 font-sans'}`}>
+    <div className={`w-full h-full min-h-0 flex pt-[52px] ${xrayMode ? 'flex-row bg-[#0f0f13] text-purple-100 font-mono tracking-wider' : 'flex-col bg-[#e6e8eb] text-gray-800 font-sans'}`}>
       
       {/* Left Pane (Only showing in xrayMode) */}
       {xrayMode && (
@@ -209,7 +209,7 @@ export default function SecretChat({ xrayMode = false }: { xrayMode?: boolean })
       )}
 
       {/* Main Chat Area */}
-      <div className={`flex-1 flex flex-col relative ${xrayMode ? 'bg-[#0f0f13]' : 'bg-white'}`}>
+      <div className={`flex-1 flex flex-col relative min-h-0 min-w-0 ${xrayMode ? 'bg-[#0f0f13]' : 'bg-white'}`}>
           {!activeChat && !isCreating && (
               xrayMode ? (
                   <div className="flex-1 flex items-center justify-center flex-col text-purple-500/50 p-8 text-center">
