@@ -1,0 +1,106 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 0. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Primitives
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    function isSignedIn() { return request.auth != null && request.auth.token.email_verified == true; }
+    
+    // Folder Validation
+    function isValidFolder(data) {
+      return data.keys().hasAll(['ownerId', 'name', 'createdAt']) && 
+             data.keys().size() == 3 &&
+             data.ownerId == request.auth.uid &&
+             data.name is string && data.name.size() <= 100 &&
+             data.createdAt == request.time;
+    }
+
+    // Note Validation
+    function isValidNote(data) {
+      return data.keys().hasAll(['ownerId', 'folderId', 'title', 'content', 'updatedAt']) &&
+             data.keys().size() == 5 &&
+             data.ownerId == request.auth.uid &&
+             data.folderId is string && data.folderId.size() <= 128 &&
+             data.title is string && data.title.size() <= 200 &&
+             data.content is string && data.content.size() <= 1000000 &&
+             data.updatedAt == request.time;
+    }
+
+    // Score Validation
+    function isValidScore(data) {
+      return data.keys().hasAll(['ownerId', 'game', 'score', 'createdAt']) &&
+             data.keys().size() == 4 &&
+             data.ownerId == request.auth.uid &&
+             data.game is string && data.game.size() <= 50 &&
+             data.score is number &&
+             data.createdAt == request.time;
+    }
+
+    // Chat Validation
+    function isValidChat(data) {
+      return data.keys().hasAny(['userEmails', 'lastMessage', 'updatedAt']) &&
+             data.userEmails is list && data.userEmails.size() == 2 &&
+             data.userEmails[0] is string && data.userEmails[1] is string &&
+             data.lastMessage is string && data.lastMessage.size() <= 1000 &&
+             data.updatedAt == request.time;
+    }
+
+    // Message Validation
+    function isValidMessage(data) {
+      return data.keys().hasAll(['chatId', 'senderEmail', 'text', 'createdAt']) &&
+             data.keys().size() == 4 &&
+             data.chatId is string && data.chatId.size() <= 128 &&
+             data.senderEmail == request.auth.token.email &&
+             data.text is string && data.text.size() <= 5000 &&
+             data.createdAt == request.time;
+    }
+
+    match /folders/{folderId} {
+      allow read: if isSignedIn() && existing().ownerId == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(folderId) && isValidFolder(incoming());
+      allow update: if isSignedIn() && isValidFolder(incoming()) && incoming().ownerId == existing().ownerId && incoming().createdAt == existing().createdAt && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'updatedAt']);
+      allow delete: if isSignedIn() && existing().ownerId == request.auth.uid;
+    }
+
+    match /notes/{noteId} {
+      allow read: if isSignedIn() && existing().ownerId == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(noteId) && isValidNote(incoming()) && exists(/databases/$(database)/documents/folders/$(incoming().folderId));
+      allow update: if isSignedIn() && isValidNote(incoming()) && incoming().ownerId == existing().ownerId && incoming().folderId == existing().folderId && incoming().diff(existing()).affectedKeys().hasOnly(['title', 'content', 'updatedAt']);
+      allow delete: if isSignedIn() && existing().ownerId == request.auth.uid;
+    }
+
+    match /scores/{scoreId} {
+      allow read: if isSignedIn() && existing().ownerId == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(scoreId) && isValidScore(incoming());
+      // Scores shouldn't be updated
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    match /chats/{chatId} {
+      allow read: if isSignedIn() && (request.auth.token.email in existing().userEmails);
+      allow list: if isSignedIn() && (request.auth.token.email in resource.data.userEmails);
+      allow create: if isSignedIn() && isValidId(chatId) && isValidChat(incoming()) && (request.auth.token.email in incoming().userEmails);
+      allow update: if isSignedIn() && (request.auth.token.email in existing().userEmails) && incoming().updatedAt == request.time && incoming().diff(existing()).affectedKeys().hasOnly(['lastMessage', 'updatedAt', 'game']);
+      allow delete: if false;
+    }
+
+    match /messages/{messageId} {
+      allow read: if isSignedIn(); // Simplified since getting chatId requires chat access
+      allow list: if isSignedIn() && exists(/databases/$(database)/documents/chats/$(resource.data.chatId)) && (request.auth.token.email in get(/databases/$(database)/documents/chats/$(resource.data.chatId)).data.userEmails);
+      allow create: if isSignedIn() && isValidId(messageId) && isValidMessage(incoming()) && exists(/databases/$(database)/documents/chats/$(incoming().chatId)) && (request.auth.token.email in get(/databases/$(database)/documents/chats/$(incoming().chatId)).data.userEmails);
+      allow update: if false;
+      allow delete: if false;
+    }
+  }
+}

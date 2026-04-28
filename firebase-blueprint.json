@@ -1,0 +1,54 @@
+{
+  "entities": {
+    "Folder": {
+      "title": "Folder",
+      "description": "User created private folder",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string" },
+        "name": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "name", "createdAt"]
+    },
+    "Note": {
+      "title": "Note",
+      "description": "Note content",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string" },
+        "folderId": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "folderId", "title", "content", "updatedAt"]
+    },
+    "GameScore": {
+      "title": "Game Score",
+      "description": "User game score",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string" },
+        "game": { "type": "string" },
+        "score": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "game", "score", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/folders/{folderId}": {
+      "schema": { "$ref": "#/entities/Folder" },
+      "description": "Folders for organizing notes"
+    },
+    "/notes/{noteId}": {
+      "schema": { "$ref": "#/entities/Note" },
+      "description": "User notes"
+    },
+    "/scores/{scoreId}": {
+      "schema": { "$ref": "#/entities/GameScore" },
+      "description": "Game scores"
+    }
+  }
+}
